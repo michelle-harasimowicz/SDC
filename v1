@@ -1,0 +1,37 @@
+import math
+
+# Accessing the value of pi
+pi_value = math.pi
+
+sigma = 10 
+#10 GHz
+
+B = 7400
+#bandwidth, 7400 GHz
+
+d = 202
+#bins
+
+delta = B/d 
+
+from scipy import integrate
+
+# Define the function to be integrated
+def integrand(x):
+    return 1 / (math.sqrt(2 * math.pi * sigma**2)) * math.exp(-x**2 / (2 * sigma**2))
+
+# Initial values for upper and lower bounds
+lower_limit = -1 *delta / 2
+upper_limit = delta / 2
+
+# Perform the integration for different upper and lower bounds
+for i in range(6):
+    # Perform the integration
+    result, _ = integrate.quad(integrand, lower_limit, upper_limit)
+
+    # Print the result
+    print(f"Integral result for p{i+0}: {result}")
+
+    # Increment upper and lower limits by 1
+    lower_limit += 2*delta / 2
+    upper_limit += 2*delta / 2
