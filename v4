@@ -1,0 +1,83 @@
+import math
+
+# Accessing the value of pi
+pi_value = math.pi
+
+sigma = 10 
+#10 GHz
+
+B = 7400
+#bandwidth, 7400 GHz
+
+# Loop over different values of d from 20 to 500
+for d in range(20, 501):
+    delta = B / d
+
+from scipy import integrate
+
+# Define the function to be integrated
+def integrand(x):
+    return 1 / (math.sqrt(2 * math.pi * sigma**2)) * math.exp(-x**2 / (2 * sigma**2))
+
+# Initialize variables for results
+integral_results = []
+
+# Initial values for upper and lower bounds
+lower_limit = -1 *delta / 2
+upper_limit = delta / 2
+
+# Perform the integration for different upper and lower bounds
+for i in range(6):
+    # Perform the integration
+    result, _ = integrate.quad(integrand, lower_limit, upper_limit)
+
+    # Print the result
+   # print(f"Integral result for p{i+0}: {result}")
+
+    # Increment upper and lower limits by 1
+    lower_limit += 2*delta / 2
+    upper_limit += 2*delta / 2
+
+ # Store the result in the list
+    integral_results.append(result)
+
+# Print the results
+#for i, result in enumerate(integral_results):
+    #print(f"Integral result for p{i+0}: {result}")
+
+# Access individual variables from the integral_results list
+p0 = integral_results[0]  
+p1 = integral_results[1]  
+p2 = integral_results[2]  
+p3 = integral_results[3]  
+p4 = integral_results[4]  
+p5 = integral_results[5]
+
+# Print the probabilities
+#print(f"p0: {p0}")
+#print(f"p1: {p1}")
+#print(f"p2: {p2}")
+#print(f"p3: {p3}")
+#print(f"p4: {p4}")
+#print(f"p5: {p5}")
+
+#calculate entropy H
+H = -((p1*math.log2(p1)+p2*math.log2(p2)+p3*math.log2(p3)+p4*math.log2(p4)+p5*math.log2(p5))*2 + p0*math.log2(p0))
+
+#print(f"H(Y|X=x): {H}")
+
+#Calculate capacity C
+C = math.log2(d) - H
+
+#print(f"C: {C}")
+
+# Print the results for each value of d
+print(f"For d={d}:")
+print(f"p0: {p0}")
+print(f"p1: {p1}")
+print(f"p2: {p2}")
+print(f"p3: {p3}")
+print(f"p4: {p4}")
+print(f"p5: {p5}")
+print(f"H(Y|X=x): {H}")
+print(f"C: {C}\n")
